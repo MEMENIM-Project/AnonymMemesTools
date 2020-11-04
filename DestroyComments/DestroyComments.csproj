@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>DestroyComments</RootNamespace>
+    <AssemblyName>DestroyComments</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Product>DestroyComments</Product>
+    <Version>1.0.0</Version>
+    <Authors>Dmitry Ponomarev</Authors>
+    <Company>MEMENIM</Company>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);CS0067;SS003;SS004;U2U1009</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Memenim.Core" Version="0.3.0" />
+    <PackageReference Include="RIS" Version="3.4.3" />
+    <PackageReference Include="RIS.Collections" Version="4.5.91" />
+    <PackageReference Include="RIS.Logging" Version="2.2.10" />
+  </ItemGroup>
+
+</Project>
