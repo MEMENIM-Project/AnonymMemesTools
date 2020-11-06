@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Security.Permissions;
+using System.Threading;
 using System.Threading.Tasks;
 using DestroyComments.Utils;
 using Memenim.Core.Schema;
@@ -50,10 +52,7 @@ namespace DestroyComments
             }
             catch (Exception ex)
             {
-                LogUtils.LogError($"{ex.Message}",
-                    $"HResult = {ex.HResult}, " +
-                    $"sourceSender = {ex.TargetSite?.DeclaringType?.FullName}, " +
-                    $"sourceCaller = {ex.TargetSite?.Name}");
+                LogUtils.LogError(ex);
             }
 
             Console.WriteLine("\n\n");
@@ -114,10 +113,9 @@ namespace DestroyComments
         {
             Exception ex = (Exception)e.ExceptionObject;
 
-            LogUtils.LogError($"{ex.Message}",
-                $"HResult = {ex.HResult}, " +
-                $"sourceSender = {ex.TargetSite?.DeclaringType?.FullName}, " +
-                $"sourceCaller = {ex.TargetSite?.Name}");
+            LogUtils.LogCriticalError(ex);
+
+            OnProcessExit(null, e);
         }
 
         private static void OnProcessExit(object sender, EventArgs e)
