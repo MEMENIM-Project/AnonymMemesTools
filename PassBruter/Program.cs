@@ -53,6 +53,7 @@ namespace PassBruter
                 if (!operation.Result.error)
                 {
                     Console.WriteLine(String.Format("Pass for {0} found {1}", _Login, passwordsBase[_Position]));
+                    foundPass = true;
                 }
                 ++_Position;
             }
