@@ -9,8 +9,12 @@
     <FileVersion>1.0.1.0</FileVersion>
     <Product>PassBruter</Product>
     <Version>1.0.1</Version>
-    <Authors>Dmitry Ponomarev</Authors>
+    <Authors>D1ckWare, Dmitry Ponomarev</Authors>
     <Company>MEMENIM</Company>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);CS0067;SS003;SS004;U2U1009</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
