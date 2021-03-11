@@ -8,7 +8,7 @@ namespace DestroyComments
         private CommentSchema Data { get; set; }
 
         public int Id { get; }
-        public int UserId { get; }
+        public int? UserId { get; }
         public string UserNickname { get; }
 
         public Comment(CommentSchema data)
@@ -17,9 +17,9 @@ namespace DestroyComments
                 return;
 
             Data = data;
-            Id = data.id;
-            UserId = data.user.id;
-            UserNickname = data.user.name;
+            Id = data.Id;
+            UserId = data.User.Id;
+            UserNickname = data.User.Nickname;
         }
     }
 }

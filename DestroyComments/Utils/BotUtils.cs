@@ -17,18 +17,18 @@ namespace DestroyComments.Utils
                 var result = await UserApi.GetProfileById(id)
                     .ConfigureAwait(false);
 
-                if (result.error)
+                if (result.IsError)
                 {
-                    LogUtils.LogError(result.message,
+                    LogUtils.LogError(result.Message,
                         $"id = {id}");
                     return null;
                 }
 
-                if (result.data == null)
+                if (result.Data == null)
                     return null;
 
-                string login = result.data.login;
-                string nickname = result.data.name;
+                string login = result.Data.Login;
+                string nickname = result.Data.Nickname;
                 Bot bot = new Bot();
 
                 while (!bot.Initialized)
@@ -39,24 +39,24 @@ namespace DestroyComments.Utils
                         .ConfigureAwait(false);
                 }
 
-                ProfileSchema botProfileSchema = result.data;
-                botProfileSchema.login = bot.Login;
-                botProfileSchema.id = bot.Id;
+                ProfileSchema botProfileSchema = result.Data;
+                botProfileSchema.Login = bot.Login;
+                botProfileSchema.Id = bot.Id;
 
                 var resultEdit = await UserApi.EditProfile(bot.Token, botProfileSchema)
                     .ConfigureAwait(false);
 
-                if (resultEdit.error)
+                if (resultEdit.IsError)
                 {
-                    if (resultEdit.message ==
+                    if (resultEdit.Message ==
                         "[cluster_block_exception] blocked by: [FORBIDDEN/12/index read-only / allow delete (api)];")
                     {
-                        LogUtils.LogWarning(resultEdit.message,
+                        LogUtils.LogWarning(resultEdit.Message,
                             $"id = {id}");
                     }
                     else
                     {
-                        LogUtils.LogError(resultEdit.message,
+                        LogUtils.LogError(resultEdit.Message,
                             $"id = {id}");
                         return null;
                     }

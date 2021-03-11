@@ -33,9 +33,9 @@ namespace DestroyComments
                 var result = await PostApi.GetComments(postId, commentsCount)
                     .ConfigureAwait(false);
 
-                if (result.error)
+                if (result.IsError)
                 {
-                    LogUtils.LogError(result.message,
+                    LogUtils.LogError(result.Message,
                         $"postId = {postId}");
                     Initialized = false;
                     return;
@@ -43,9 +43,9 @@ namespace DestroyComments
 
                 PostId = postId;
 
-                List<Comment> commentsList = new List<Comment>(result.data.Count);
+                List<Comment> commentsList = new List<Comment>(result.Data.Count);
 
-                foreach (var comment in result.data)
+                foreach (var comment in result.Data)
                 {
                     commentsList.Add(new Comment(comment));
                 }

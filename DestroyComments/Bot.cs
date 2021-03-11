@@ -73,20 +73,20 @@ namespace DestroyComments
                         .ConfigureAwait(false);
                 }
 
-                if (result.error)
+                if (result.IsError)
                 {
-                    if (result.message ==
+                    if (result.Message ==
                         "[cluster_block_exception] blocked by: [FORBIDDEN/12/index read-only / allow delete (api)];")
                     {
-                        LogUtils.LogWarning(result.message,
+                        LogUtils.LogWarning(result.Message,
                             $"id = {Id}, login = {Login}");
 
                         result = await UserApi.Login(login, password)
                             .ConfigureAwait(false);
 
-                        if (result.error)
+                        if (result.IsError)
                         {
-                            LogUtils.LogError(result.message,
+                            LogUtils.LogError(result.Message,
                                 $"id = {Id}, login = {Login}");
                             Initialized = false;
                             return;
@@ -94,45 +94,45 @@ namespace DestroyComments
                     }
                     else
                     {
-                        LogUtils.LogError(result.message,
+                        LogUtils.LogError(result.Message,
                             $"id = {Id}, login = {Login}");
                         Initialized = false;
                         return;
                     }
                 }
 
-                var resultData = await UserApi.GetProfileById(result.data.id)
+                var resultData = await UserApi.GetProfileById(result.Data.Id)
                     .ConfigureAwait(false);
 
-                if (resultData.error)
+                if (resultData.IsError)
                 {
-                    if (resultData.message ==
+                    if (resultData.Message ==
                         "[cluster_block_exception] blocked by: [FORBIDDEN/12/index read-only / allow delete (api)];")
                     {
-                        LogUtils.LogWarning(resultData.message,
+                        LogUtils.LogWarning(resultData.Message,
                             $"id = {Id}, login = {Login}");
                     }
                     else
                     {
-                        LogUtils.LogError(resultData.message,
+                        LogUtils.LogError(resultData.Message,
                             $"id = {Id}, login = {Login}");
                         Initialized = false;
                         return;
                     }
                 }
 
-                if (resultData.data == null)
+                if (resultData.Data == null)
                 {
                     Initialized = false;
                     return;
                 }
 
-                Data = resultData.data;
-                Token = result.data.token;
-                Id = result.data.id;
+                Data = resultData.Data;
+                Token = result.Data.Token;
+                Id = result.Data.Id;
                 Login = login;
                 Password = password;
-                Nickname = resultData.data.name;
+                Nickname = resultData.Data.Nickname;
             }
             catch (Exception)
             {

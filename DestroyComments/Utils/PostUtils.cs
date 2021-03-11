@@ -18,32 +18,32 @@ namespace DestroyComments.Utils
                 var result = await PostApi.Get(bot.Token, type, count, offset)
                     .ConfigureAwait(false);
 
-                if (result.error)
+                if (result.IsError)
                 {
-                    if (result.message ==
+                    if (result.Message ==
                         "[cluster_block_exception] blocked by: [FORBIDDEN/12/index read-only / allow delete (api)];")
                     {
-                        LogUtils.LogWarning(result.message,
+                        LogUtils.LogWarning(result.Message,
                             $"botId = {bot.Id}, botLogin = {bot.Login}, type = {type}, count = {count}, offset = {offset}");
                     }
                     else
                     {
-                        LogUtils.LogError(result.message,
+                        LogUtils.LogError(result.Message,
                             $"botId = {bot.Id}, botLogin = {bot.Login}, type = {type}, count = {count}, offset = {offset}");
                         return new List<Post>();
                     }
                 }
 
-                if (result.data.Count == 0)
+                if (result.Data.Count == 0)
                     return new List<Post>();
 
-                List<Post> postsList = new List<Post>(result.data.Count);
+                List<Post> postsList = new List<Post>(result.Data.Count);
 
-                foreach (var postData in result.data)
+                foreach (var postData in result.Data)
                 {
                     Post post = new Post();
 
-                    await post.Initialize(bot, postData.id)
+                    await post.Initialize(bot, postData.Id)
                         .ConfigureAwait(false);
 
                     if (!post.Initialized)
@@ -95,17 +95,17 @@ namespace DestroyComments.Utils
                 var result = await PostApi.AddComment(bot.Token, postId, text)
                     .ConfigureAwait(false);
 
-                if (result.error)
+                if (result.IsError)
                 {
-                    if (result.message ==
+                    if (result.Message ==
                         "[cluster_block_exception] blocked by: [FORBIDDEN/12/index read-only / allow delete (api)];")
                     {
-                        LogUtils.LogWarning(result.message,
+                        LogUtils.LogWarning(result.Message,
                             $"botId = {bot.Id}, botLogin = {bot.Login}, postId = {postId}");
                     }
                     else
                     {
-                        LogUtils.LogError(result.message,
+                        LogUtils.LogError(result.Message,
                             $"botId = {bot.Id}, botLogin = {bot.Login}, postId = {postId}");
                         return;
                     }
@@ -137,7 +137,7 @@ namespace DestroyComments.Utils
                 do
                 {
                     post = postsList[RandomUtils.RandomInt(0, postsList.Count)];
-                } while (!post.CommentsIsOpen);
+                } while (!post.IsCommentsOpen);
 
                 int postId = post.Id;
                 string text = RandomUtils.GenerateString(5, 10);
@@ -145,17 +145,17 @@ namespace DestroyComments.Utils
                 var result = await PostApi.AddComment(bot.Token, postId, text)
                     .ConfigureAwait(false);
 
-                if (result.error)
+                if (result.IsError)
                 {
-                    if (result.message ==
+                    if (result.Message ==
                         "[cluster_block_exception] blocked by: [FORBIDDEN/12/index read-only / allow delete (api)];")
                     {
-                        LogUtils.LogWarning(result.message,
+                        LogUtils.LogWarning(result.Message,
                             $"botId = {bot.Id}, botLogin = {bot.Login}, postId = {postId}");
                     }
                     else
                     {
-                        LogUtils.LogError(result.message,
+                        LogUtils.LogError(result.Message,
                             $"botId = {bot.Id}, botLogin = {bot.Login}, postId = {postId}");
                         return false;
                     }
@@ -188,17 +188,17 @@ namespace DestroyComments.Utils
                 var result = await PostApi.AddLike(bot.Token, postId)
                     .ConfigureAwait(false);
 
-                if (result.error)
+                if (result.IsError)
                 {
-                    if (result.message ==
+                    if (result.Message ==
                         "[cluster_block_exception] blocked by: [FORBIDDEN/12/index read-only / allow delete (api)];")
                     {
-                        LogUtils.LogWarning(result.message,
+                        LogUtils.LogWarning(result.Message,
                             $"botId = {bot.Id}, botLogin = {bot.Login}, postId = {postId}");
                     }
                     else
                     {
-                        LogUtils.LogError(result.message,
+                        LogUtils.LogError(result.Message,
                             $"botId = {bot.Id}, botLogin = {bot.Login}, postId = {postId}");
                         return false;
                     }
@@ -207,17 +207,17 @@ namespace DestroyComments.Utils
                 result = await PostApi.RemoveLike(bot.Token, postId)
                     .ConfigureAwait(false);
 
-                if (result.error)
+                if (result.IsError)
                 {
-                    if (result.message ==
+                    if (result.Message ==
                         "[cluster_block_exception] blocked by: [FORBIDDEN/12/index read-only / allow delete (api)];")
                     {
-                        LogUtils.LogWarning(result.message,
+                        LogUtils.LogWarning(result.Message,
                             $"botId = {bot.Id}, botLogin = {bot.Login}, postId = {postId}");
                     }
                     else
                     {
-                        LogUtils.LogError(result.message,
+                        LogUtils.LogError(result.Message,
                             $"botId = {bot.Id}, botLogin = {bot.Login}, postId = {postId}");
                         return false;
                     }

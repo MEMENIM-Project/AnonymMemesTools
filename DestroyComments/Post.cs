@@ -12,11 +12,12 @@ namespace DestroyComments
 
         public int Id { get; private set; }
         public CommentsList CommentsList { get; }
-        public bool CommentsIsOpen
+
+        public bool IsCommentsOpen
         {
             get
             {
-                return Data?.open_comments == 1;
+                return Data.IsCommentsOpen;
             }
         }
 
@@ -48,33 +49,33 @@ namespace DestroyComments
                 var result = await PostApi.GetById(bot.Token, id)
                     .ConfigureAwait(false);
 
-                if (result.error)
+                if (result.IsError)
                 {
-                    if (result.message ==
+                    if (result.Message ==
                         "[cluster_block_exception] blocked by: [FORBIDDEN/12/index read-only / allow delete (api)];")
                     {
-                        LogUtils.LogWarning(result.message,
+                        LogUtils.LogWarning(result.Message,
                             $"botId = {bot.Id}, botLogin = {bot.Login}, id = {Id}");
                     }
                     else
                     {
-                        LogUtils.LogError(result.message,
+                        LogUtils.LogError(result.Message,
                             $"botId = {bot.Id}, botLogin = {bot.Login}, id = {Id}");
                         Initialized = false;
                         return;
                     }
                 }
 
-                if (result.data == null)
+                if (result.Data == null)
                 {
                     Initialized = false;
                     return;
                 }
 
-                Data = result.data;
-                Id = result.data.id;
+                Data = result.Data;
+                Id = result.Data.Id;
 
-                await CommentsList.Initialize(Id, result.data.comments.count)
+                await CommentsList.Initialize(Id, result.Data.Comments.TotalCount)
                     .ConfigureAwait(false);
 
                 if (!CommentsList.Initialized)

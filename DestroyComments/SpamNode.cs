@@ -159,14 +159,17 @@ namespace DestroyComments
             do
             {
                 Post post = GetRandomPost();
-                Comment comment = post?.GetRandomComment();
+                Comment comment;
+
+                do
+                {
+                    comment = post?.GetRandomComment();
+                } while (comment?.UserId.HasValue == false);
 
                 if (comment == null)
                     continue;
 
-                int userId = comment.UserId;
-
-                bot = await BotUtils.CopyProfile(userId)
+                bot = await BotUtils.CopyProfile(comment.UserId.Value)
                     .ConfigureAwait(false);
             } while (bot?.Initialized == false);
 
@@ -187,7 +190,7 @@ namespace DestroyComments
                 if (post == null)
                     return;
 
-                if (!post.CommentsIsOpen)
+                if (!post.IsCommentsOpen)
                     return;
 
                 int postId = post.Id;

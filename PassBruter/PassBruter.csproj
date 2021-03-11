@@ -5,10 +5,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>PassBruter</RootNamespace>
     <AssemblyName>PassBruter</AssemblyName>
-    <AssemblyVersion>1.0.1.0</AssemblyVersion>
-    <FileVersion>1.0.1.0</FileVersion>
+    <AssemblyVersion>1.1.1.0</AssemblyVersion>
+    <FileVersion>1.1.1.0</FileVersion>
     <Product>PassBruter</Product>
-    <Version>1.0.1</Version>
+    <Version>1.1.1</Version>
     <Authors>D1ckWare, Dmitry Ponomarev</Authors>
     <Company>MEMENIM</Company>
   </PropertyGroup>
@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Memenim.Core" Version="0.3.1" />
+    <PackageReference Include="Memenim.Core" Version="0.5.6" />
   </ItemGroup>
 
 </Project>

