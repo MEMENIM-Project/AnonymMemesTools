@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace AnonymDump.Dump
+namespace AnonymDump.Dumping
 {
     public interface IDumpEngine
     {

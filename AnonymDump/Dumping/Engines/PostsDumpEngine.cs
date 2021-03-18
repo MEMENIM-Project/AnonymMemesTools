@@ -10,7 +10,7 @@ using Memenim.Core.Schema;
 using RIS.Collections.Nestable;
 using RIS.Connection.MySQL.Requests;
 
-namespace AnonymDump.Dump.Engines
+namespace AnonymDump.Dumping.Engines
 {
 #pragma warning disable U2U1009 // Async or iterator methods should avoid state machine generation for early exits (throws or synchronous returns)
     public class PostsDumpEngine : IDumpEngine

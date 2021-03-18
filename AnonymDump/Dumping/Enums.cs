@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AnonymDump.Dump
+namespace AnonymDump.Dumping
 {
     public enum DumpEngineType
     {
