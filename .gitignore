@@ -348,4 +348,15 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-/PassBruter/Properties/launchSettings.json
+
+# Solution
+
+# Files
+
+PassBruter/Properties/launchSettings.json
+
+# Directories
+
+AnonymDump/_tools/xampp
+AnonymDump/_current
+AnonymDump/_current2
