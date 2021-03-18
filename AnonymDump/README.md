@@ -15,9 +15,9 @@
 ### How to get ready-to-use dumped database
 
 1) [Download](#download-links) ready-to-use dumped database (with xampp) archive
-2) Move the 'xampp' folder from the archive to the '_tools' folder (located in the project root folder)
-3) Run setup_xampp.bat from '_tools\xampp' folder and wait for the operations to complete
-4) Run xampp-control.exe from '_tools\xampp' folder
+2) Move the 'xampp' folder from the archive to the '&#95;tools' folder (located in the project root folder) **(If you use the release and not the source code, you can move it to any folder)**
+3) Run setup_xampp.bat from '&#95;tools\xampp' folder and wait for the operations to complete
+4) Run xampp-control.exe from '&#95;tools\xampp' folder
 5) Start 'Apache' and 'MySQL' modules and wait a few seconds
 6) Open [PhpMyAdmin](http://localhost/phpmyadmin/index.php)
 7) ??? PROFIT!!!
