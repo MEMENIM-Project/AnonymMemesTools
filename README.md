@@ -9,3 +9,6 @@
 - [PassBruter](PassBruter/README.md)
 
 
+### Latest release
+
+[v1.0.0](https://github.com/MEMENIM-Project/AnonymMemesTools/releases/tag/v1.0.0)
