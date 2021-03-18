@@ -30,27 +30,27 @@
 
 ### AppSettings.config (ini file)
 
-##### Database section
+#### Database section
 - *DatabaseConnectionString* - Connection string for MySql database provider
 - *DatabaseConnectionsNumber* - Number of connections to MySql database provider **(with values >100, there may be problems)**
 - *DatabaseCommandTimeout* - Default request timeout for MySql database provider
 
-##### Users section
+#### Users section
 - *UsersOffset* - Id from which the users dump will start **(>0)**
 
-##### Posts section
+#### Posts section
 - *PostsOffset* - Id from which the posts dump will start **(>0)**
 
-##### Comments section
+#### Comments section
 - *CommentsCountPerTime* - Number of comments uploaded per request **(preferably at least >=20)**
 
-##### Log section
+#### Log section
 - *LogRetentionDaysPeriod* - Number of days that the log files are stored (i.e., before they are deleted) **('-1' - without deletion, '0' - last log file only)**
 
 
 ## <div align="center">**Download links**</div>
 
-##### Sql files for database (with schemas and some data)
+#### Sql files for database (with schemas and some data)
 
 - *Separated files (export by tables)*
     - [YandexDisk](https://disk.yandex.ru/d/GUtxNbjHoNc_2Q)
@@ -63,7 +63,7 @@
     - [GoogleDrive](https://drive.google.com/file/d/1vEoZbCWMirVXj5sfekZ8MPK4bFCCeZL2/view?usp=sharing)
 
 
-##### Ready-to-use dumped database
+#### Ready-to-use dumped database
 
 - *Single archive (with xampp)*
     - [YandexDisk](https://disk.yandex.ru/d/DYrC3PiWwlE27A)
