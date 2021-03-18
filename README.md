@@ -1,6 +1,6 @@
 # <div align="center">**Anonym Memes Tools**</div>
 
-## Project README files
+## README files for projects
 - [AnonymDump](AnonymDump/README.md)
 - [DestroyComments](DestroyComments/README.md)
 - [PassBruter](PassBruter/README.md)
