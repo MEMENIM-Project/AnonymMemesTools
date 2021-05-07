@@ -69,15 +69,16 @@
     - Version 2 (***08.05.2021***)
         - [YandexDisk](https://disk.yandex.ru/d/ZHhbJYKh5GogJA)
         - [GoogleDrive](https://drive.google.com/file/d/1WQ2iCPonhEg7Wmb8BBORtMOMz4UzuamR/view?usp=sharing)
-        <br>
+    <br>
     
     - <details>
-         <summary><b>Older versions</b> <i>(click to expand)</i></summary>
-         
-         - Version 1 (***18.03.2021***)
-              - [YandexDisk](https://disk.yandex.ru/d/DYrC3PiWwlE27A)
-              - [GoogleDrive](https://drive.google.com/file/d/1r5MdxPaKWBJcbJm03xPdXmrihMC4HV6k/view?usp=sharing)
-          
+        <summary><b>Older versions</b> <i>(click to expand)</i></summary>
+        <br>
+        
+        - Version 1 (***18.03.2021***)
+            - [YandexDisk](https://disk.yandex.ru/d/DYrC3PiWwlE27A)
+            - [GoogleDrive](https://drive.google.com/file/d/1r5MdxPaKWBJcbJm03xPdXmrihMC4HV6k/view?usp=sharing)
+        
       </details>
 
 
