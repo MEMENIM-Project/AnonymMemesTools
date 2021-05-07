@@ -5,10 +5,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>DestroyComments</RootNamespace>
     <AssemblyName>DestroyComments</AssemblyName>
-    <AssemblyVersion>1.1.2.0</AssemblyVersion>
-    <FileVersion>1.1.2.0</FileVersion>
+    <AssemblyVersion>1.1.4.0</AssemblyVersion>
+    <FileVersion>1.1.4.0</FileVersion>
     <Product>DestroyComments</Product>
-    <Version>1.1.2</Version>
+    <Version>1.1.4</Version>
     <Authors>D1ckWare, Dmitry Ponomarev</Authors>
     <Company>MEMENIM</Company>
   </PropertyGroup>
@@ -18,8 +18,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Memenim.Core" Version="0.6.1" />
-    <PackageReference Include="RIS" Version="3.12.1" />
+    <PackageReference Include="Memenim.Core" Version="0.6.3" />
+    <PackageReference Include="RIS" Version="3.13.0" />
     <PackageReference Include="RIS.Collections" Version="4.7.4" />
     <PackageReference Include="RIS.Logging" Version="2.2.15" />
   </ItemGroup>

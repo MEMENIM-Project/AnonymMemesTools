@@ -189,34 +189,34 @@ namespace AnonymDump
 
         private static void OnInformation(object sender, RInformationEventArgs e)
         {
-            LogManager.DebugLog.Info($"{e.Message}");
+            LogManager.DebugLog.Info($"{(!string.IsNullOrEmpty(e.Message) ? e.Message : "Unknown")}");
         }
 
         private static void OnWarning(object sender, RWarningEventArgs e)
         {
-            LogManager.Log.Warn($"{e.Message}");
+            LogManager.Log.Warn($"{(!string.IsNullOrEmpty(e.Message) ? e.Message : "Unknown")}");
         }
 
         private static void OnError(object sender, RErrorEventArgs e)
         {
-            LogManager.Log.Error($"{e.SourceException?.GetType().Name ?? "Unknown"} - Message={e.Message ?? (e.SourceException?.Message ?? "Unknown")},HResult={e.SourceException?.HResult ?? 0},StackTrace=\n{e.SourceException?.StackTrace ?? "Unknown"}");
+            LogManager.Log.Error($"{e.SourceException?.GetType().Name ?? "Unknown"} - Message={(!string.IsNullOrEmpty(e.Message) ? e.Message : "Unknown")},HResult={e.SourceException?.HResult ?? 0},StackTrace=\n{e.SourceException?.StackTrace ?? "Unknown"}");
         }
 
 
 
         private static void OnCoreInformation(object sender, CoreInformationEventArgs e)
         {
-            //LogManager.DebugLog.Info($"{e.Message}");
+            //LogManager.DebugLog.Info($"{(!string.IsNullOrEmpty(e.Message) ? e.Message : "Unknown")}");
         }
 
         private static void OnCoreWarning(object sender, CoreWarningEventArgs e)
         {
-            LogManager.Log.Warn($"{e.Message}");
+            LogManager.Log.Warn($"{(!string.IsNullOrEmpty(e.Message) ? e.Message : "Unknown")}");
         }
 
         private static void OnCoreError(object sender, CoreErrorEventArgs e)
         {
-            LogManager.Log.Error($"{e.SourceException?.GetType().Name ?? "Unknown"} - Message={e.Message ?? (e.SourceException?.Message ?? "Unknown")},HResult={e.SourceException?.HResult ?? 0},StackTrace=\n{e.Stacktrace ?? (e.SourceException?.StackTrace ?? "Unknown")}");
+            LogManager.Log.Error($"{e.SourceException?.GetType().Name ?? "Unknown"} - Message={(!string.IsNullOrEmpty(e.Message) ? e.Message : "Unknown")},HResult={e.SourceException?.HResult ?? 0},StackTrace=\n{e.SourceException?.StackTrace ?? "Unknown"}");
         }
 
 
