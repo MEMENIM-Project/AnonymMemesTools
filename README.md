@@ -11,4 +11,4 @@
 
 ### Latest release
 
-[v1.0.0](https://github.com/MEMENIM-Project/AnonymMemesTools/releases/tag/v1.0.0)
+[v1.0.2](https://github.com/MEMENIM-Project/AnonymMemesTools/releases/tag/v1.0.2)
