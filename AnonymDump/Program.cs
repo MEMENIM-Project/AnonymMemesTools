@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Globalization;
-using System.IO;
-using System.Reflection;
-using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 using AnonymDump.Database;
 using AnonymDump.Dumping;
 using AnonymDump.Dumping.Engines;
-using AnonymDump.Logging;
 using AnonymDump.Settings;
 using Memenim.Core.Api;
-using RIS;
 using RIS.Extensions;
-using Environment = RIS.Environment;
+using RIS.Logging;
 
 namespace AnonymDump
 {
@@ -20,45 +14,19 @@ namespace AnonymDump
     {
         private static void Main(string[] args)
         {
-#pragma warning disable SS002 // DateTime.Now was referenced
-            NLog.GlobalDiagnosticsContext.Set("AppStartupTime",
-                DateTime.Now.ToString("yyyy.MM.dd HH-mm-ss", CultureInfo.InvariantCulture));
-#pragma warning restore SS002 // DateTime.Now was referenced
-
             Console.Title = "Anonym dump tool";
 
-            Events.Information += OnInformation;
-            Events.Warning += OnWarning;
-            Events.Error += OnError;
+            LogManager.Startup();
+            LogManager.LoggingShutdown += LogManager_OnLoggingShutdown;
+
+            ApiRequestEngine.ConnectionStateChanged += OnConnectionStateChanged;
 
             ApiRequestEngine.Information += OnCoreInformation;
             ApiRequestEngine.Warning += OnCoreWarning;
             ApiRequestEngine.Error += OnCoreError;
 
-            AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
-            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
-            AppDomain.CurrentDomain.FirstChanceException += OnFirstChanceException;
-            AppDomain.CurrentDomain.AssemblyResolve += OnAssemblyResolve;
-            AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += OnAssemblyResolve;
-            AppDomain.CurrentDomain.TypeResolve += OnResolve;
-            AppDomain.CurrentDomain.ResourceResolve += OnResolve;
-
-            ApiRequestEngine.ConnectionStateChanged += OnConnectionStateChanged;
-
-            LogManager.Log.Info("App Run");
-
-            LogManager.Log.Info($"Libraries Directory - {Environment.ExecAppDirectoryName}");
-            LogManager.Log.Info($"Execution File Directory - {Environment.ExecProcessDirectoryName}");
-            LogManager.Log.Info($"Is Standalone App - {Environment.IsStandalone}");
-            LogManager.Log.Info($"Is Single File App - {Environment.IsSingleFile}");
-            LogManager.Log.Info($"Runtime Name - {Environment.RuntimeName}");
-            LogManager.Log.Info($"Runtime Version - {Environment.RuntimeVersion}");
-            LogManager.Log.Info($"Runtime Identifier - {Environment.RuntimeIdentifier}");
-
-            LogManager.Log.Info("Deleted older logs - " +
-                                $"{LogManager.DeleteLogs(Path.Combine(Environment.ExecProcessDirectoryName, "logs"), SettingsManager.AppSettings.LogRetentionDaysPeriod)}");
-            LogManager.Log.Info("Deleted older debug logs - " +
-                                $"{LogManager.DeleteLogs(Path.Combine(Environment.ExecProcessDirectoryName, "logs", "debug"), SettingsManager.AppSettings.LogRetentionDaysPeriod)}");
+            LogManager.DeleteLogs(SettingsManager.AppSettings
+                .LogRetentionDaysPeriod);
 
             Task.Run(async () =>
             {
@@ -81,16 +49,6 @@ namespace AnonymDump
 
 
 
-        private static void WaitPressExitKey()
-        {
-            ConsoleKeyInfo key;
-
-            do
-            {
-                key = Console.ReadKey(true);
-            } while (key.Key != ConsoleKey.Escape);
-        }
-
         private static T ReadValue<T>(T defaultValue,
             string valueName, string additionalInfo = null)
         {
@@ -105,6 +63,7 @@ namespace AnonymDump
                 : defaultValue;
         }
 
+#pragma warning disable U2U1009 // Async or iterator methods should avoid state machine generation for early exits (throws or synchronous returns)
         private static async Task Start()
         {
             LogInfo("Connection to database...");
@@ -147,6 +106,7 @@ namespace AnonymDump
                 LogError($"Error: {ex.Message}");
             }
         }
+#pragma warning restore U2U1009 // Async or iterator methods should avoid state machine generation for early exits (throws or synchronous returns)
 
         private static void Exit()
         {
@@ -155,24 +115,40 @@ namespace AnonymDump
             System.Environment.Exit(0x0);
         }
 
+        private static void WaitPressExitKey()
+        {
+            ConsoleKeyInfo key;
+
+            do
+            {
+                key = Console.ReadKey(true);
+            } while (key.Key != ConsoleKey.Escape);
+        }
+
 
 
         public static void LogInfo(string message)
         {
-            ConsoleExtensions.WriteLineColored(message, ConsoleColor.Gray);
-            LogManager.Log.Info(message);
+            ConsoleExtensions.WriteLineColored(
+                message, ConsoleColor.Gray);
+            LogManager.Log.Info(
+                message);
         }
 
         public static void LogWarning(string message)
         {
-            ConsoleExtensions.WriteLineColored(message, ConsoleColor.Yellow);
-            LogManager.Log.Warn(message);
+            ConsoleExtensions.WriteLineColored(
+                message, ConsoleColor.Yellow);
+            LogManager.Log.Warn(
+                message);
         }
 
         public static void LogError(string message)
         {
-            ConsoleExtensions.WriteLineColored(message, ConsoleColor.Red);
-            LogManager.Log.Error(message);
+            ConsoleExtensions.WriteLineColored(
+                message, ConsoleColor.Red);
+            LogManager.Log.Error(
+                message);
         }
 
 
@@ -183,23 +159,6 @@ namespace AnonymDump
                 LogInfo($"Connection state changed to: {e.NewState}");
             else
                 LogError($"Connection state changed to: {e.NewState}");
-        }
-
-
-
-        private static void OnInformation(object sender, RInformationEventArgs e)
-        {
-            LogManager.DebugLog.Info($"{(!string.IsNullOrEmpty(e.Message) ? e.Message : "Unknown")}");
-        }
-
-        private static void OnWarning(object sender, RWarningEventArgs e)
-        {
-            LogManager.Log.Warn($"{(!string.IsNullOrEmpty(e.Message) ? e.Message : "Unknown")}");
-        }
-
-        private static void OnError(object sender, RErrorEventArgs e)
-        {
-            LogManager.Log.Error($"{e.SourceException?.GetType().Name ?? "Unknown"} - Message={(!string.IsNullOrEmpty(e.Message) ? e.Message : "Unknown")},HResult={e.SourceException?.HResult ?? 0},StackTrace=\n{e.SourceException?.StackTrace ?? "Unknown"}");
         }
 
 
@@ -221,47 +180,16 @@ namespace AnonymDump
 
 
 
-        private static void OnProcessExit(object sender, EventArgs e)
+        private static void LogManager_OnLoggingShutdown(object sender, EventArgs e)
         {
             SettingsManager.AppSettings.Save();
-
             DBConnection.Close();
-            LogManager.Log.Info($"App Exit Code - {System.Environment.ExitCode}");
-            NLog.LogManager.Shutdown();
-        }
 
-        private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            Exception exception = e.ExceptionObject as Exception;
+            ApiRequestEngine.ConnectionStateChanged -= OnConnectionStateChanged;
 
-            LogManager.Log.Fatal($"{exception?.GetType().Name ?? "Unknown"} - Message={exception?.Message ?? "Unknown"},HResult={exception?.HResult ?? 0},StackTrace=\n{exception?.StackTrace ?? "Unknown"}");
-
-            SettingsManager.AppSettings.Save();
-
-            DBConnection.Close();
-            LogManager.Log.Info($"App Exit Code - {System.Environment.ExitCode}");
-            NLog.LogManager.Shutdown();
-        }
-
-        private static void OnFirstChanceException(object sender, FirstChanceExceptionEventArgs e)
-        {
-            LogManager.DebugLog.Error($"{e.Exception.GetType().Name} - Message={e.Exception.Message},HResult={e.Exception.HResult},StackTrace=\n{e.Exception.StackTrace ?? "Unknown"}");
-        }
-
-
-
-        private static Assembly OnAssemblyResolve(object sender, ResolveEventArgs e)
-        {
-            LogManager.DebugLog.Info($"Resolve - Name={e.Name ?? "Unknown"},RequestingAssembly={e.RequestingAssembly?.FullName ?? "Unknown"}");
-
-            return e.RequestingAssembly;
-        }
-
-        private static Assembly OnResolve(object sender, ResolveEventArgs e)
-        {
-            LogManager.DebugLog.Info($"Resolve - Name={e.Name ?? "Unknown"},RequestingAssembly={e.RequestingAssembly?.FullName ?? "Unknown"}");
-
-            return e.RequestingAssembly;
+            ApiRequestEngine.Information -= OnCoreInformation;
+            ApiRequestEngine.Warning -= OnCoreWarning;
+            ApiRequestEngine.Error -= OnCoreError;
         }
     }
 }

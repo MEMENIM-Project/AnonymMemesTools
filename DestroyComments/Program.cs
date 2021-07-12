@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Security.Permissions;
-using System.Threading;
 using System.Threading.Tasks;
 using DestroyComments.Utils;
 using Memenim.Core.Schema;
+using RIS.Logging;
 
 namespace DestroyComments
 {
@@ -15,8 +14,7 @@ namespace DestroyComments
         {
             Console.Title = "Anonym destroy comments tool";
 
-            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
-            AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
+            LogManager.Startup();
 
             try
             {
@@ -96,7 +94,8 @@ namespace DestroyComments
             _waitPressKeysActive = false;
         }
 
-        public static T ReadValue<T>(T defaultValue, string valueName, string additionalInfo = null)
+        public static T ReadValue<T>(T defaultValue,
+            string valueName, string additionalInfo = null)
         {
             Console.Write($"Enter {valueName}" +
                           $"{(!string.IsNullOrEmpty(additionalInfo) ? $" | {additionalInfo} |" : string.Empty)} " +
@@ -107,20 +106,6 @@ namespace DestroyComments
             return !string.IsNullOrWhiteSpace(inputLine)
                 ? (T)Convert.ChangeType(inputLine, typeof(T))
                 : defaultValue;
-        }
-
-        private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            Exception ex = (Exception)e.ExceptionObject;
-
-            LogUtils.LogCriticalError(ex);
-
-            OnProcessExit(null, e);
-        }
-
-        private static void OnProcessExit(object sender, EventArgs e)
-        {
-            LogUtils.LogFile.Close();
         }
     }
 }
