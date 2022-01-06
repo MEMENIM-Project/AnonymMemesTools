@@ -66,15 +66,16 @@
 #### Ready-to-use dumped database
 
 - *Single archive (with xampp)*
-    - Version 2 (***08.05.2021***)
-        - [YandexDisk](https://disk.yandex.ru/d/ZHhbJYKh5GogJA)
-        - [GoogleDrive](https://drive.google.com/file/d/1WQ2iCPonhEg7Wmb8BBORtMOMz4UzuamR/view?usp=sharing)
+    - Version 3 (***06.01.2022***)
+        - [GoogleDrive](https://drive.google.com/file/d/1xg87l9npBtQgquvWRDsm9hgY93TL9-_h/view?usp=sharing)
     <br>
     
     - <details>
         <summary><b>Older versions</b> <i>(click to expand)</i></summary>
         <br>
-        
+         - Version 2 (***08.05.2021***)
+            - [YandexDisk](https://disk.yandex.ru/d/ZHhbJYKh5GogJA)
+            - [GoogleDrive](https://drive.google.com/file/d/1WQ2iCPonhEg7Wmb8BBORtMOMz4UzuamR/view?usp=sharing)
         - Version 1 (***18.03.2021***)
             - [YandexDisk](https://disk.yandex.ru/d/DYrC3PiWwlE27A)
             - [GoogleDrive](https://drive.google.com/file/d/1r5MdxPaKWBJcbJm03xPdXmrihMC4HV6k/view?usp=sharing)
